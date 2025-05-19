@@ -81,7 +81,7 @@ nav {
 
 .search-bar {
     position: fixed;
-    z-index: 3;
+    z-index: 2;
     width: 50%;
     padding: 15px 20px;
     border-radius: 10px;
@@ -115,7 +115,7 @@ nav {
 }
 
 .meme {
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     width: 96%;
     height: auto;
     background-color: white;
@@ -141,13 +141,8 @@ nav {
 
 .meme:hover {
     transform: scale(1.05);
-    z-index: 2;
 }
 
-.meme.no-hover:hover {
-    transform: scale(1);
-    z-index: 0;
-}
 
 .meme img {
     width: 100%;
@@ -182,7 +177,6 @@ nav {
 }
 
 .modal-content {
-    z-index: 5;
     justify-content: center;
     background-color: white;
     border-radius: 10px;
@@ -285,7 +279,6 @@ nav {
 }
 
 .meme-generator {
-    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
