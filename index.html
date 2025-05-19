@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музей мемов</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ahaha.com</h1>
+        <nav>
+            <button class="nav-btn" data-category="all">Все мемы</button>
+            <button class="nav-btn" data-category="itl">Итальянский braintrot</button>
+            <button class="nav-btn" data-category="animal">Животные</button>
+            <button class="nav-btn" data-category="rg">Райан Гослинг</button>
+            <button class="nav-btn" data-category="anything">Разное</button>
+        </nav>
+    </header>
+    <main>
+        <div class="search-bar">
+            <img class="search-img" src="img/search.svg" alt="">
+            <input type="text" id="search" placeholder="Введите год, название или описание...">
+        </div>
+        <div class="gallery" id="gallery"></div>
+    </main>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <img id="modal-image" src="" alt="">
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <p id="modal-year"></p>
+            <p id="modal-source"></p>
+            <div class="like-dislike-container">
+                <button class="like-btn" id="like-btn">
+                    <img src="img/like.svg" alt="Лайк">
+                    <span id="like-count">0</span>
+                </button>
+                <button class="dislike-btn" id="dislike-btn">
+                    <span id="dislike-count">0</span>
+                    <img src="img/dislike.svg" alt="Дизлайк">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="easter-egg" id="easter-egg">🥚</div>
+    <script src="script.js"></script>
+</body>
+</html>
