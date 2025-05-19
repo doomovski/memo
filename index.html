@@ -3,48 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музей мемов</title>
+    <title>ahaha.com</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>ahaha.com</h1>
-        <nav>
-            <button class="nav-btn" data-category="all">Все мемы</button>
-            <button class="nav-btn" data-category="itl">Итальянский braintrot</button>
-            <button class="nav-btn" data-category="animal">Животные</button>
-            <button class="nav-btn" data-category="rg">Райан Гослинг</button>
-            <button class="nav-btn" data-category="anything">Разное</button>
-        </nav>
+        <div>
+            <h1>ahaha.com</h1>
+            <nav>
+                <button class="nav-btn active" data-category="all">Все мемы</button>
+                <button class="nav-btn" data-category="itl">Итальянский braintrot</button>
+                <button class="nav-btn" data-category="animal">Животные</button>
+                <button class="nav-btn" data-category="rg">Райан Гослинг</button>
+                <button class="nav-btn" data-category="mymem">Мои мемы</button>
+                <button class="nav-btn" data-category="anything">Разное</button>
+            </nav>
+        </div>
+        <button class="create-btn" data-category="generator">Создать мем</button>
     </header>
     <main>
         <div class="search-bar">
-            <img class="search-img" src="img/search.svg" alt="">
-            <input type="text" id="search" placeholder="Введите год, название или описание...">
+            <img src="img/search.svg" alt="search" class="search-img">
+            <input type="text" id="search" placeholder="Введите дату или название, или описание...">
         </div>
-        <div class="gallery" id="gallery"></div>
+        <div id="gallery" class="gallery"></div>
+        <div id="meme-generator" class="meme-generator" style="display: none;">
+            <h2>Создай свой мем!</h2>
+            <div class="template-selector">
+                <label for="template">Выбери шаблон:
+                    <div class="image-upload">
+                        <label for="image-upload">Загрузить своё изображение:</label>
+                        <input type="file" id="image-upload" accept="image/*">
+                    </div>
+                </label>
+                <select id="template">
+                    <option value="">Выберите шаблон</option>
+                </select>
+            </div>
+            <div class="text-inputs">
+                <input type="text" id="top-text" placeholder="Верхний текст">
+                <input type="text" id="bottom-text" placeholder="Нижний текст">
+            </div>
+            <canvas id="meme-canvas" width="400" height="400"></canvas>
+            <button id="generate-meme">Создать мем</button>
+            <a id="download-meme" style="display: none;">Скачать мем</a>
+            <button id="save-meme">Сохранить в галерею</button>
+        </div>
     </main>
-    <div class="modal" id="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close">×</span>
+            <span class="close">&times;</span>
             <img id="modal-image" src="" alt="">
             <h2 id="modal-title"></h2>
             <p id="modal-description"></p>
             <p id="modal-year"></p>
-            <p id="modal-source"></p>
             <div class="like-dislike-container">
-                <button class="like-btn" id="like-btn">
-                    <img src="img/like.svg" alt="Лайк">
+                <button id="like-btn" class="like-btn">
                     <span id="like-count">0</span>
+                    <img src="img/like.svg" alt="Like">
                 </button>
-                <button class="dislike-btn" id="dislike-btn">
+                <button id="dislike-btn" class="dislike-btn">
                     <span id="dislike-count">0</span>
-                    <img src="img/dislike.svg" alt="Дизлайк">
+                    <img src="img/dislike.svg" alt="Dislike">
                 </button>
             </div>
         </div>
     </div>
-    <div class="easter-egg" id="easter-egg">🥚</div>
+    <div id="easter-egg" class="easter-egg">🥚</div>
     <script src="script.js"></script>
 </body>
 </html>

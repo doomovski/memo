@@ -10,9 +10,11 @@ body {
     flex-direction: row;
     background-color: #f0f0f0;
     min-height: 100vh;
+    padding: 10px;
 }
 
 header {
+    justify-content: space-between;
     margin: 20px;
     margin-bottom: 100px;
     height: 96%;
@@ -53,6 +55,24 @@ nav {
     cursor: pointer;
     border-radius: 5px;
     font-size: 19px;
+    transition: 0.5s;
+}
+
+.create-btn{
+    width: 95%;
+    padding: 20px 10px;
+    margin: 10px 5px;
+    border: none;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 19px;
+    transition: 0.5s;
+}
+
+.create-btn:hover{
+    filter: invert();
 }
 
 .nav-btn:hover {
@@ -60,6 +80,8 @@ nav {
 }
 
 .search-bar {
+    position: fixed;
+    z-index: 3;
     width: 50%;
     padding: 15px 20px;
     border-radius: 10px;
@@ -67,7 +89,7 @@ nav {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 20px auto;
+    margin: 20px 20%;
 }
 
 .search-img {
@@ -85,6 +107,7 @@ nav {
 }
 
 .gallery {
+    margin-top: 130px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 400px);
     justify-content: center;
@@ -92,7 +115,7 @@ nav {
 }
 
 .meme {
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
     width: 96%;
     height: auto;
     background-color: white;
@@ -118,7 +141,7 @@ nav {
 
 .meme:hover {
     transform: scale(1.05);
-    z-index: 10;
+    z-index: 2;
 }
 
 .meme.no-hover:hover {
@@ -159,6 +182,7 @@ nav {
 }
 
 .modal-content {
+    z-index: 5;
     justify-content: center;
     background-color: white;
     border-radius: 10px;
@@ -258,6 +282,81 @@ nav {
 .easter-egg:hover {
     opacity: 1;
     animation: bounce 0.5s infinite;
+}
+
+.meme-generator {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+}
+
+.meme-generator h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.image-upload, .text-inputs {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.image-upload label {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.image-upload input, .text-inputs input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px;
+}
+
+.text-inputs input {
+    margin: 10px 0;
+}
+
+#meme-canvas {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+#generate-meme, #save-meme {
+    padding: 10px 20px;
+    border: none;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 10px;
+}
+
+#generate-meme:hover, #save-meme:hover {
+    background-color: #777;
+}
+
+#download-meme {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+#download-meme:hover {
+    background-color: #555;
 }
 
 @keyframes fadeIn {
@@ -425,5 +524,24 @@ nav {
 
     .nav-btn {
         flex: 1 1 100px;
+    }
+
+    .meme-generator {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .meme-generator h2 {
+        font-size: 24px;
+    }
+
+    .image-upload input, .text-inputs input {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    #meme-canvas {
+        width: 100%;
+        height: auto;
     }
 }

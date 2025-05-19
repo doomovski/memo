@@ -16,154 +16,155 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Элементы DOM
     const gallery = document.getElementById('gallery');
+    const searchBar = document.querySelector('.search-bar');
     const searchInput = document.getElementById('search');
     const navButtons = document.querySelectorAll('.nav-btn');
+    const createBtn = document.querySelector('.create-btn');
     const modal = document.getElementById('modal');
     const modalImage = document.getElementById('modal-image');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalYear = document.getElementById('modal-year');
-    const modalSource = document.getElementById('modal-source');
     const closeModal = document.querySelector('.close');
     const easterEgg = document.getElementById('easter-egg');
+    const memeGeneratorSection = document.getElementById('meme-generator');
+    const imageUploadInput = document.getElementById('image-upload');
+    const topTextInput = document.getElementById('top-text');
+    const bottomTextInput = document.getElementById('bottom-text');
+    const memeCanvas = document.getElementById('meme-canvas');
+    const generateMemeBtn = document.getElementById('generate-meme');
+    const downloadMemeBtn = document.getElementById('download-meme');
+    const saveMemeBtn = document.getElementById('save-meme');
+    const canvasContext = memeCanvas.getContext('2d');
 
-    // Переменная для хранения текущей карточки
-    let currentMemeElement = null;
+    let uploadedImageSrc = null;
 
-    // Отображение всех мемов при загрузке
+    // Обработчик кнопки "Создать мем" в шапке
+    createBtn.addEventListener('click', () => {
+        // Активируем режим генератора
+        navButtons.forEach(b => b.classList.remove('active'));
+        createBtn.classList.add('active');
+        displayMemes('generator');
+        searchInput.value = '';
+    });
+
+    imageUploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedImageSrc = e.target.result;
+                drawMeme(uploadedImageSrc, topTextInput.value.toUpperCase(), bottomTextInput.value.toUpperCase());
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function drawMeme(imageSrc, topText, bottomText) {
+        if (!imageSrc) { alert('Пожалуйста, загрузите изображение!'); return; }
+        const img = new Image();
+        img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            const maxSize = 600;
+            const scale = Math.min(maxSize / width, maxSize / height, 1);
+            width *= scale;
+            height *= scale;
+            memeCanvas.width = width;
+            memeCanvas.height = height;
+            canvasContext.drawImage(img, 0, 0, width, height);
+            canvasContext.font = `bold ${Math.floor(width / 15)}px Arial`;
+            canvasContext.fillStyle = 'white';
+            canvasContext.strokeStyle = 'black';
+            canvasContext.lineWidth = Math.floor(width / 100);
+            canvasContext.textAlign = 'center';
+            canvasContext.strokeText(topText, width / 2, 50);
+            canvasContext.fillText(topText, width / 2, 50);
+            canvasContext.strokeText(bottomText, width / 2, height - 20);
+            canvasContext.fillText(bottomText, width / 2, height - 20);
+            downloadMemeBtn.style.display = 'inline-block';
+            downloadMemeBtn.href = memeCanvas.toDataURL('image/png');
+        };
+        img.src = imageSrc;
+    }
+
     function displayMemes(filter = 'all') {
         gallery.innerHTML = '';
-        const filteredMemes = memes.filter(meme => filter === 'all' || meme.category === filter);
-        
-        filteredMemes.forEach(meme => {
-            const memeDiv = document.createElement('div');
-            memeDiv.classList.add('meme');
-            memeDiv.dataset.id = meme.id;
-            memeDiv.innerHTML = `
-                <img src="${meme.image}" alt="${meme.title}">
-                <p>${meme.title}</p>
-            `;
-            memeDiv.addEventListener('click', () => openModal(meme, memeDiv));
-            gallery.appendChild(memeDiv);
-        });
+        memeGeneratorSection.style.display = filter === 'generator' ? 'block' : 'none';
+        searchBar.style.display = filter === 'generator' ? 'none' : 'flex';
+        gallery.style.display = filter === 'generator' ? 'none' : 'grid';
+        if (filter !== 'generator') {
+            memes.filter(m => filter === 'all' || m.category === filter)
+                 .forEach(meme => {
+                const div = document.createElement('div');
+                div.classList.add('meme');
+                div.dataset.id = meme.id;
+                div.innerHTML = `<img src="${meme.image}" alt="${meme.title}"><p>${meme.title}</p>`;
+                div.addEventListener('click', () => openModal(meme, div));
+                gallery.appendChild(div);
+            });
+        }
     }
 
-    // Поиск с анимацией
     searchInput.addEventListener('input', () => {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        const activeCategory = document.querySelector('.nav-btn.active')?.dataset.category || 'all';
-        const memeElements = document.querySelectorAll('.meme');
-
-        memeElements.forEach(memeElement => {
-            const meme = memes.find(m => m.id === parseInt(memeElement.dataset.id));
-            if (!meme) return;
-            
-            if (activeCategory !== 'all' && meme.category !== activeCategory) {
-                memeElement.classList.add('hidden');
-                setTimeout(() => {
-                    if (memeElement.classList.contains('hidden')) {
-                        memeElement.style.display = 'none';
-                    }
-                }, 300);
-                return;
-            }
-
-            const title = meme.title.toLowerCase();
-            const description = meme.description.toLowerCase();
-            const year = meme.year.toString().toLowerCase();
-            const source = meme.source.toLowerCase();
-
-            if (searchTerm === '' || 
-                title.startsWith(searchTerm) || 
-                description.includes(searchTerm) || 
-                year.includes(searchTerm) || 
-                source.includes(searchTerm)) {
-                memeElement.classList.remove('hidden');
-                memeElement.style.display = 'block';
-            } else {
-                memeElement.classList.add('hidden');
-                setTimeout(() => {
-                    if (memeElement.classList.contains('hidden')) {
-                        memeElement.style.display = 'none';
-                    }
-                }, 300);
-            }
+        const term = searchInput.value.trim().toLowerCase();
+        const active = document.querySelector('.nav-btn.active')?.dataset.category || 'all';
+        document.querySelectorAll('.meme').forEach(el => {
+            const m = memes.find(x => x.id == el.dataset.id);
+            if (!m) return;
+            const match = (term === '' || m.title.toLowerCase().startsWith(term) || m.description.toLowerCase().includes(term) || m.year.toString().includes(term) || m.source.toLowerCase().includes(term))
+                          && (active === 'all' || m.category === active);
+            el.classList.toggle('hidden', !match);
+            setTimeout(() => { if (el.classList.contains('hidden')) el.style.display = 'none'; else el.style.display = 'block'; }, 300);
         });
     });
 
-    // Открытие модального окна
-    function openModal(meme, memeElement) {
-        modalImage.src = meme.image;
-        modalImage.alt = meme.title;
-        modalTitle.textContent = meme.title;
-        modalDescription.textContent = `${meme.description}`;
-        modalYear.textContent = `${meme.year}, ${meme.source}`;
-        
-        // Обновление счётчиков
-        document.getElementById('like-count').textContent = meme.likes;
-        document.getElementById('dislike-count').textContent = meme.dislikes;
-
-        // Обработчик для кнопки лайка
-        document.getElementById('like-btn').onclick = () => {
-            meme.likes++;
-            document.getElementById('like-count').textContent = meme.likes;
-        };
-
-        // Обработчик для кнопки дизлайка
-        document.getElementById('dislike-btn').onclick = () => {
-            meme.dislikes++;
-            document.getElementById('dislike-count').textContent = meme.dislikes;
-        };
-
-        // Сохраняем текущую карточку и отключаем ховер
-        currentMemeElement = memeElement;
-        currentMemeElement.classList.add('no-hover');
-
-        // Показываем модальное окно с анимацией
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.classList.add('show');
-        }, 10); // Небольшая задержка для запуска анимации
-    }
-
-    // Закрытие модального окна
-    closeModal.addEventListener('click', () => {
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            // Восстанавливаем ховер для карточки
-            if (currentMemeElement) {
-                currentMemeElement.classList.remove('no-hover');
-                currentMemeElement = null;
-            }
-        }, 300); // Соответствует длительности анимации
-    });
-
-    // Фильтрация по категориям
-    navButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            navButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            displayMemes(button.dataset.category);
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            displayMemes(btn.dataset.category);
             searchInput.value = '';
         });
     });
 
-    // Пасхалка
-    easterEgg.addEventListener('click', () => {
-        alert('Вы нашли пасхалку! 🥚 Вот секретный мем!');
-        const secretMeme = document.createElement('div');
-        secretMeme.classList.add('meme');
-        secretMeme.dataset.id = 'secret';
-        secretMeme.innerHTML = `
-            <img src="https://i.ytimg.com/vi/xox7QKywoW0/maxresdefault.jpg" alt="Секретный мем">
-            <p>Секретный мем!</p>
-        `;
-        gallery.prepend(secretMeme);
-        easterEgg.style.display = 'none';
+    generateMemeBtn.addEventListener('click', () => {
+        drawMeme(uploadedImageSrc, topTextInput.value.toUpperCase(), bottomTextInput.value.toUpperCase());
+        searchBar.style.display = 'none';
     });
 
-    // Инициализация
+    saveMemeBtn.addEventListener('click', () => {
+        if (!uploadedImageSrc) { alert('Пожалуйста, загрузите изображение!'); return; }
+        memes.push({id: memes.length+1, title: topTextInput.value||'Мой мем', category: 'anything', description: 'Сгенерировано', year: new Date().getFullYear(), source: 'Генератор', image: memeCanvas.toDataURL(), likes:0, dislikes:0});
+        displayMemes(document.querySelector('.nav-btn.active').dataset.category);
+        alert('Мем сохранён!');
+    });
+
+    closeModal.addEventListener('click', () => { modal.classList.remove('show'); setTimeout(() => modal.style.display = 'none', 300); });
+
+    function openModal(meme, elem) {
+        modalImage.src = meme.image;
+        modalTitle.textContent = meme.title;
+        modalDescription.textContent = meme.description;
+        modalYear.textContent = `${meme.year}, ${meme.source}`;
+        document.getElementById('like-count').textContent = meme.likes;
+        document.getElementById('dislike-count').textContent = meme.dislikes;
+        document.getElementById('like-btn').onclick = () => document.getElementById('like-count').textContent = ++meme.likes;
+        document.getElementById('dislike-btn').onclick = () => document.getElementById('dislike-count').textContent = ++meme.dislikes;
+        modal.style.display = 'flex';
+        setTimeout(() => modal.classList.add('show'), 10);
+    }
+
+    easterEgg.addEventListener('click', () => {
+        alert('Пасхалка!');
+        const secret = document.createElement('div');
+        secret.classList.add('meme'); secret.dataset.id='secret';
+        secret.innerHTML = `<img src="https://i.ytimg.com/vi/xox7QKywoW0/maxresdefault.jpg"><p>Секрет!</p>`;
+        gallery.prepend(secret);
+        easterEgg.style.display='none';
+    });
+
     displayMemes();
     navButtons[0].classList.add('active');
 });
+
