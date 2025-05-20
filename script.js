@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let uploadedImageSrc = null;
 
     // Обработчик бургер-меню
-    burgerMenu.addEventListener('click', (e) => {
+burgerMenu.addEventListener('click', (e) => {
     e.stopPropagation();
     
     if (nav.classList.contains('active')) {
@@ -71,13 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // Закрытие меню при клике на ссылку
 document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        header.classList.remove('active');
-        nav.classList.remove('active');
-        burgerMenu.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        setTimeout(() => {
-            nav.style.display = 'none';
-        }, 300);
+        // Проверяем, активно ли бургер-меню (т.е. мобильная версия)
+        if (burgerMenu.classList.contains('active')) {
+            header.classList.remove('active');
+            nav.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                nav.style.display = 'none';
+            }, 300);
+        }
     });
 });
 
