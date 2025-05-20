@@ -267,7 +267,7 @@ nav {
     justify-content: center;
     width: 100%;
     gap: 20px;
-    animation: fadeIn 0.6s ease-out 0.4s both;
+    animation: fadeInUp 0.4s ease-out 0.5s both;
 }
 
 .meme {
@@ -418,6 +418,30 @@ nav {
 #like-count, #dislike-count {
     margin-right: 10px;
     font-size: 32px;
+}
+
+#like-btn.liked {
+    background-color: #28a745 !important; 
+    color: white;
+}
+
+#dislike-btn.disliked {
+    background-color: #dc3545 !important; 
+    color: white;
+}
+
+#like-btn, #dislike-btn {
+    transition: background-color 0.3s;
+}
+
+#like-btn:hover:not(:disabled) {
+    background-color: #28a745;
+    color: white;
+}
+
+#dislike-btn:hover:not(:disabled) {
+    background-color: #dc3545;
+    color: white;
 }
 
 .easter-egg {
@@ -643,10 +667,10 @@ nav {
         padding: 20px;
     }
     header {
-        width: 96%;
+        width: 95%;
         position: static;
         height: auto;
-        margin: 10px;
+        margin: 9px;
         margin-bottom: 0;
         padding: 10px 20px;
         flex-direction: row;

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 2, title: "Тралалело Тралала", category: "itl", description: "трехногая акула в модных кроссовках Nike", year: 2025, source: "TikTok", image: "https://img.gazeta.ru/files3/50/20904050/upload-02-pic4_zoom-1500x1500-85716.jpg", likes: 0, dislikes: 0 },
         { id: 3, title: "Тунг Тунг Сахур", category: "itl", description: "деревянная дубинка с огромными глазами и битой в руке", year: 2025, source: "YouTube", image: "https://i.ytimg.com/vi/6T0f7iUyiVM/maxresdefault.jpg", likes: 0, dislikes: 0 },
         { id: 4, title: "Лирили Ларила", category: "itl", description: "Кот, который жив и мёртв одновременно.", year: 2025, source: "TikTok", image: "https://i.ytimg.com/vi/RdCx5K3GWPY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHIgVigoMA8=&rs=AOn4CLCkcs8zA04P20unZQRzL70JQb_aeg", likes: 0, dislikes: 0 },
-        { id: 5, title: "Бобрито Бандито", category: "itl", description: "Дрейк одобряет и не одобряет.", yeПar: 2025, source: "TikTok", image: "https://i.pinimg.com/736x/24/5d/e9/245de92bc210c6341a4b88bacadeeaad.jpg", likes: 0, dislikes: 0 },
+        { id: 5, title: "Бобрито Бандито", category: "itl", description: "Дрейк одобряет и не одобряет.", year: 2025, source: "TikTok", image: "https://i.pinimg.com/736x/24/5d/e9/245de92bc210c6341a4b88bacadeeaad.jpg", likes: 0, dislikes: 0 },
         { id: 6, title: "Шпиониро Голубиро", category: "itl", description: "Кот в наушниках за компом.", year: 2025, source: "TikTok", image: "https://i.pinimg.com/736x/5e/ef/ef/5eefef5605a72662a413b1199e85adce.jpg", likes: 0, dislikes: 0 },
         { id: 7, title: "Окак", category: "animal", description: "черный кот в капюшоне стал символом растерянности", year: 2025, source: "4chan", image: "https://forum.nextrp.ru/data/attachments/302/302447-83905c562b25006a88863d2ce0e0c81c.jpg", likes: 0, dislikes: 0 },
         { id: 8, title: "Четыре (шесть)", category: "anything", description: "Кот, который выглядит умнее всех.", year: 2022, source: "VK", image: "https://steamuserimages-a.akamaihd.net/ugc/1699531085984116757/AE595C7552B603CFEBA3C054FB8348ABFDDC64B7/?imw=512&imh=288&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true", likes: 0, dislikes: 0 },
@@ -43,46 +43,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const burgerMenu = document.querySelector('.burger-menu');
     const nav = document.querySelector('nav');
     const header = document.querySelector('header')
+    const userInteractions = {};
 
     let uploadedImageSrc = null;
 
     // Обработчик бургер-меню
-burgerMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-    
-    if (nav.classList.contains('active')) {
-        // Закрываем меню
-        header.classList.remove('active');
-        nav.classList.remove('active');
-        burgerMenu.classList.remove('active');
-        document.body.style.overflow = 'auto'; // Возвращаем возможность скролла
-    } else {
-        // Открываем меню
-        nav.style.display = 'flex';
-        setTimeout(() => {
-            header.classList.add('active');
-            nav.classList.add('active');
-            burgerMenu.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Блокируем скролл при открытом меню
-        }, 10);
-    }
-});
-
-// Закрытие меню при клике на ссылку
-document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Проверяем, активно ли бургер-меню (т.е. мобильная версия)
-        if (burgerMenu.classList.contains('active')) {
+    burgerMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (nav.classList.contains('active')) {
+            // Закрываем меню
             header.classList.remove('active');
             nav.classList.remove('active');
             burgerMenu.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // Возвращаем возможность скролла
+        } else {
+            // Открываем меню
+            nav.style.display = 'flex';
             setTimeout(() => {
-                nav.style.display = 'none';
-            }, 300);
+                header.classList.add('active');
+                nav.classList.add('active');
+                burgerMenu.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Блокируем скролл при открытом меню
+            }, 10);
         }
     });
-});
+
+    // Закрытие меню при клике на ссылку
+    document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Проверяем, активно ли бургер-меню (т.е. мобильная версия)
+            if (burgerMenu.classList.contains('active')) {
+                header.classList.remove('active');
+                nav.classList.remove('active');
+                burgerMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                setTimeout(() => {
+                    nav.style.display = 'none';
+                }, 300);
+            }
+        });
+    });
 
 
     // Обработчик кнопки "Создать мем"
@@ -150,13 +151,13 @@ document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
         img.src = imageSrc;
     }
 
-    // Предотвращение навигации по data URL
-    downloadMemeBtn.addEventListener('click', (e) => {
-        if (!downloadMemeBtn.href || downloadMemeBtn.href === '#') {
-            e.preventDefault();
-            alert('Сначала сгенерируйте мем!');
-        }
-    });
+    // // Предотвращение навигации по data URL
+    // downloadMemeBtn.addEventListener('click', (e) => {
+    //     if (!downloadMemeBtn.href || downloadMemeBtn.href === '#') {
+    //         e.preventDefault();
+    //         alert('Сначала сгенерируйте мем!');
+    //     }
+    // });
 
     // Отображение мемов
     function displayMemes(filter = 'all') {
@@ -264,8 +265,63 @@ document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
         modalYear.textContent = `${meme.year}, ${meme.source}`;
         document.getElementById('like-count').textContent = meme.likes;
         document.getElementById('dislike-count').textContent = meme.dislikes;
-        document.getElementById('like-btn').onclick = () => document.getElementById('like-count').textContent = ++meme.likes;
-        document.getElementById('dislike-btn').onclick = () => document.getElementById('dislike-count').textContent = ++meme.dislikes;
+
+        const likeBtn = document.getElementById('like-btn');
+        const dislikeBtn = document.getElementById('dislike-btn');
+
+        // Сбрасываем стили и состояние кнопок
+        likeBtn.classList.remove('liked');
+        dislikeBtn.classList.remove('disliked');
+        likeBtn.disabled = false;
+        dislikeBtn.disabled = false;
+
+        // Проверяем текущее состояние взаимодействия
+        if (userInteractions[meme.id] === 'like') {
+            likeBtn.classList.add('liked');
+            dislikeBtn.disabled = true;
+        } else if (userInteractions[meme.id] === 'dislike') {
+            dislikeBtn.classList.add('disliked');
+            likeBtn.disabled = true;
+        }
+
+        // Обработчик для лайка
+        likeBtn.onclick = () => {
+            if (userInteractions[meme.id] === 'like') {
+                // Отмена лайка
+                meme.likes--;
+                document.getElementById('like-count').textContent = meme.likes;
+                likeBtn.classList.remove('liked');
+                dislikeBtn.disabled = false;
+                delete userInteractions[meme.id];
+            } else if (!userInteractions[meme.id]) {
+                // Установка лайка
+                meme.likes++;
+                document.getElementById('like-count').textContent = meme.likes;
+                likeBtn.classList.add('liked');
+                dislikeBtn.disabled = true;
+                userInteractions[meme.id] = 'like';
+            }
+        };
+
+        // Обработчик для дизлайка
+        dislikeBtn.onclick = () => {
+            if (userInteractions[meme.id] === 'dislike') {
+                // Отмена дизлайка
+                meme.dislikes--;
+                document.getElementById('dislike-count').textContent = meme.dislikes;
+                dislikeBtn.classList.remove('disliked');
+                likeBtn.disabled = false;
+                delete userInteractions[meme.id];
+            } else if (!userInteractions[meme.id]) {
+                // Установка дизлайка
+                meme.dislikes++;
+                document.getElementById('dislike-count').textContent = meme.dislikes;
+                dislikeBtn.classList.add('disliked');
+                likeBtn.disabled = true;
+                userInteractions[meme.id] = 'dislike';
+            }
+        };
+
         modal.style.display = 'flex';
         setTimeout(() => modal.classList.add('show'), 10);
     }
