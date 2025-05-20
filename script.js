@@ -42,14 +42,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvasContext = memeCanvas.getContext('2d');
     const burgerMenu = document.querySelector('.burger-menu');
     const nav = document.querySelector('nav');
+    const header = document.querySelector('header')
 
     let uploadedImageSrc = null;
 
     // Обработчик бургер-меню
-    burgerMenu.addEventListener('click', () => {
-        burgerMenu.classList.toggle('active');
-        nav.classList.toggle('active');
+    burgerMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    if (nav.classList.contains('active')) {
+        // Закрываем меню
+        header.classList.remove('active');
+        nav.classList.remove('active');
+        burgerMenu.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Возвращаем возможность скролла
+    } else {
+        // Открываем меню
+        nav.style.display = 'flex';
+        setTimeout(() => {
+            header.classList.add('active');
+            nav.classList.add('active');
+            burgerMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Блокируем скролл при открытом меню
+        }, 10);
+    }
+});
+
+// Закрытие меню при клике на ссылку
+document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        header.classList.remove('active');
+        nav.classList.remove('active');
+        burgerMenu.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            nav.style.display = 'none';
+        }, 300);
     });
+});
+
 
     // Обработчик кнопки "Создать мем"
     createBtn.addEventListener('click', () => {
