@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    
+    <!-- Шапка сайта с навигацией -->
     <header>
         <div class="burger-menu">☰</div>
         <h1>ahaha.com</h1>
+        <!-- Навигационное меню с кнопками для фильтрации и создания мемов -->
         <nav>
             <button class="nav-btn" data-category="all">Все мемы</button>
             <button class="nav-btn" data-category="itl">Итальянский braintrot</button>
@@ -21,17 +24,21 @@
         </nav>
     </header>
 
+    <!-- Основной контент -->
     <main>
+        <!-- Поисковая панель для фильтрации мемов -->
         <div class="search-bar">
             <img class="search-img" src="https://cdn-icons-png.flaticon.com/512/3917/3917132.png" alt="search" id="easter-egg">
             <input type="text" id="search" placeholder="Поиск мемов...">
         </div>
-
+        <!-- Секция для создания и редактирования мемов -->
         <section class="meme-generator" id="meme-generator" style="display: none;">
             <h2>Добавь свой мем!</h2>
+            <!-- Поле для загрузки изображения -->
             <div class="image-upload">
                 <input type="file" id="image-upload" accept="image/*">
             </div>
+            <!-- Поля для ввода данных мема -->
             <div class="text-inputs">
                 <input type="text" id="title" placeholder="Название мема">
                 <input type="text" id="description" placeholder="Описание">
@@ -40,12 +47,15 @@
                     <input type="number" id="year" placeholder="Год">   
                 </div>
             </div>
+            <!-- Поля для добавления текста на мем -->
             <div class="text-inputs">
                 <h2>Создай свой мем! (если хочешь)</h2>
                 <input type="text" id="top-text" placeholder="Верхний текст (по желанию)">
                 <input type="text" id="bottom-text" placeholder="Нижний текст (по желанию)">
             </div>
+            <!-- Канвас для отображения созданного мема -->
             <canvas id="meme-canvas"></canvas>
+            <!-- Кнопки для управления созданием и сохранением мема -->
             <div class="meme-btn">
                 <button id="generate-meme">Создать мем</button>
                 <a id="download-meme" style="display: none;">Скачать мем</a>
@@ -53,19 +63,24 @@
             </div>
         </section>
 
+        <!-- Галерея для отображения мемов -->
         <section class="gallery" id="gallery"></section>
     </main>
 
+    <!-- Модальное окно для просмотра мема -->
     <div class="modal" id="modal">
         <div class="modal-content">
+            <!-- Кнопки действий -->
             <span class="close"><img src="img/cross.png" alt="close"></span>
             <button id="edit-btn" style="display: none;"><img src="img/settings.svg" alt="settings"></button>
+            <!-- Основные данные о меме -->
             <img id="modal-image" src="" alt="meme">
             <div class="row">
-            <h2 id="modal-title"></h2>
+                <h2 id="modal-title"></h2>
             </div>
             <p id="modal-description"></p>
             <p id="modal-year"></p>
+            <!-- Кнопки лайка и дизлайка -->
             <div class="like-dislike-container">
                 <button id="like-btn" class="like-btn">
                     <span id="like-count">0</span>
@@ -78,6 +93,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Подключение JavaScript для интерактивности -->
     <script src="script.js"></script>
 </body>
 </html>

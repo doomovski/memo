@@ -1,11 +1,12 @@
+/* Ключевые анимации */
 @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: scale(0.95);
+        opacity: 0; 
+        transform: scale(0.95); 
     }
     to {
-        opacity: 1;
-        transform: scale(1);
+        opacity: 1; 
+        transform: scale(1); 
     }
 }
 
@@ -21,8 +22,8 @@
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0); } 
+    50% { transform: translateY(-10px); } 
 }
 
 @keyframes fadeInModal {
@@ -67,11 +68,11 @@
 
 @keyframes slideInNav {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-100%); 
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translateY(0); 
         opacity: 1;
     }
 }
@@ -90,7 +91,7 @@
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px); 
     }
     to {
         opacity: 1;
@@ -101,7 +102,7 @@
 @keyframes fadeInDown {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-20px); 
     }
     to {
         opacity: 1;
@@ -112,7 +113,7 @@
 @keyframes fadeInLeft {
     from {
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(-20px); 
     }
     to {
         opacity: 1;
@@ -123,7 +124,7 @@
 @keyframes fadeInRight {
     from {
         opacity: 0;
-        transform: translateX(20px);
+        transform: translateX(20px); 
     }
     to {
         opacity: 1;
@@ -131,43 +132,40 @@
     }
 }
 
+/* Общие стили для всех элементов */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    font-family: Arial, sans-serif; 
 }
 
+/* Стили для тела документа */
 body {
     display: flex;
-    flex-direction: row;
-    background-color: #f0f0f0;
-    min-height: 100vh;
+    flex-direction: row; 
+    background-color: #f0f0f0; 
+    min-height: 100vh; 
     padding: 10px;
 }
 
+/* Стили для шапки */
 header {
     margin: 20px;
     margin-bottom: 100px;
     height: 96%;
     border-radius: 10px;
-    position: fixed;
-    z-index: 3;
+    position: fixed; 
+    z-index: 3; 
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #333;
+    background-color: #333; 
     color: white;
     flex-shrink: 0;
     width: 240px;
-    animation: fadeInLeft 1s ease-out both;
-}
-
-main {
-    margin-left: 260px;
-    flex: 1;
-    width: 100%;
+    animation: fadeInLeft 1s ease-out both; 
 }
 
 header h1 {
@@ -175,6 +173,14 @@ header h1 {
     font-size: 40px;
 }
 
+/* Основной контент */
+main {
+    margin-left: 260px; 
+    flex: 1; 
+    width: 100%;
+}
+
+/* Бургер-меню (скрыто по умолчанию) */
 .burger-menu {
     display: none; 
     font-size: 30px;
@@ -182,15 +188,18 @@ header h1 {
     color: white;
 }
 
+/* Стили для активного бургер-меню */
 .burger-menu.active::before {
     content: '';
 }
 
+/* Навигационное меню */
 nav {
     display: flex;
     flex-direction: column;
 }
 
+/* Кнопки навигации */
 .nav-btn {
     padding: 20px 10px;
     margin: 10px 5px;
@@ -200,10 +209,11 @@ nav {
     cursor: pointer;
     border-radius: 5px;
     font-size: 19px;
-    transition: 0.5s;
-    animation: fadeInDown 1s ease-out 0.7s both;
+    transition: 0.5s; 
+    animation: fadeInDown 1s ease-out 0.7s both; 
 }
 
+/* Кнопка создания мема */
 .create-btn {
     width: 95%;
     padding: 20px 10px;
@@ -216,17 +226,20 @@ nav {
     border-radius: 5px;
     font-size: 19px;
     transition: 0.5s;
-    animation: fadeInUp 0.6s ease-out 0.8s both;
+    animation: fadeInUp 0.6s ease-out 0.8s both; 
 }
 
+/* Эффект наведения на кнопку создания */
 .create-btn:hover {
-    filter: invert();
+    filter: invert(); 
 }
 
+/* Эффект наведения на кнопки навигации */
 .nav-btn:hover {
     background-color: #777;
 }
 
+/* Поисковая панель */
 .search-bar {
     position: fixed;
     z-index: 2;
@@ -242,20 +255,24 @@ nav {
     gap: 20px;
 }
 
+/* Скрытие поисковой панели в режиме редактирования */
 .meme-generator.edit-mode .search-bar {
     display: none;
 }
 
+/* Иконка поиска */
 .search-img {
     width: 50px;
-    filter: invert();
+    filter: invert(); 
     transition: 0.5s;
 }
 
+/* Эффект наведения на иконку поиска */
 .search-img:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); 
 }
 
+/* Поле ввода поиска */
 #search {
     width: 100%;
     font-size: 25px;
@@ -264,51 +281,58 @@ nav {
     border: 1px solid #ccc;
 }
 
+/* Галерея мемов */
 .gallery {
     margin-top: 130px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 400px);
+    grid-template-columns: repeat(auto-fill, 400px); 
     justify-content: center;
     width: 100%;
     gap: 20px;
     animation: fadeInUp 0.4s ease-out 0.5s both;
 }
 
+/* Стили для отдельных мемов */
 .meme {
     border-radius: 10px;
     width: 100%;
     height: auto;
     background-color: white;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.3s ease;
     opacity: 0;
 }
 
+/* Скрытые мемы */
 .meme.hidden {
     opacity: 0;
     transform: scale(0.95);
     transition: transform 0.3s ease, opacity 0.3s ease;
-    pointer-events: none;
+    pointer-events: none; 
 }
 
+/* Видимые мемы */
 .meme:not(.hidden) {
     opacity: 1;
     transform: scale(1);
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Эффект наведения на мем */
 .meme:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); 
 }
 
+/* Изображение мема */
 .meme img {
     width: 100%;
     height: 400px;
-    object-fit: cover;
+    object-fit: cover; 
 }
 
+/* Текст мема */
 .meme p {
     padding: 20px;
     text-align: center;
@@ -316,6 +340,7 @@ nav {
     bottom: 0;
 }
 
+/* Модальное окно */
 .modal {
     display: none;
     position: fixed;
@@ -323,18 +348,20 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); 
     justify-content: center;
     align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
+/* Показ модального окна */
 .modal.show {
     display: flex;
     opacity: 1;
 }
 
+/* Содержимое модального окна */
 .modal-content {
     justify-content: center;
     background-color: white;
@@ -350,12 +377,14 @@ nav {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Анимация появления содержимого модального окна */
 .modal.show .modal-content {
     opacity: 1;
     transform: scale(1);
     animation: contentFadeIn 0.3s ease forwards;
 }
 
+/* Изображение в модальном окне */
 .modal-content img {
     border-radius: 10px 10px 0 0;
     width: 100%;
@@ -365,11 +394,13 @@ nav {
     margin-bottom: 20px;
 }
 
+/* Заголовок в модальном окне */
 .modal-content h2 {
     font-size: 40px;
     margin-bottom: 20px;
 }
 
+/* Текст в модальном окне */
 .modal-content p {
     width: 50%;
     margin: auto;
@@ -377,6 +408,7 @@ nav {
     margin-bottom: 20px;
 }
 
+/* Кнопка закрытия модального окна */
 .close {
     background-color: #9ba5b1;
     color: #f0f0f0;
@@ -390,15 +422,18 @@ nav {
     transition: 0.5s;
 }
 
+/* Эффект наведения на кнопку закрытия */
 .close:hover {
     background-color: #333435;
 }
 
-.close img{
+/* Изображение кнопки закрытия */
+.close img {
     margin: 0;
     filter: invert();
 }
 
+/* Контейнер для кнопок лайка и дизлайка */
 .like-dislike-container {
     align-items: center;
     display: flex;
@@ -407,6 +442,7 @@ nav {
     margin-top: 20px;
 }
 
+/* Кнопки лайка и дизлайка */
 .like-btn, .dislike-btn {
     position: relative;
     display: flex;
@@ -416,14 +452,17 @@ nav {
     border-radius: 10px;
 }
 
+/* Эффект наведения на кнопку лайка */
 .like-btn:hover {
     background-color: rgb(125, 204, 125);
 }
 
+/* Эффект наведения на кнопку дизлайка */
 .dislike-btn:hover {
     background-color: rgb(197, 77, 77);
 }
 
+/* Кнопка редактирования */
 #edit-btn {
     background-color: #9ba5b1;
     color: white;
@@ -441,17 +480,20 @@ nav {
     max-height: 64px;
 }
 
-#edit-btn img{
+/* Изображение кнопки редактирования */
+#edit-btn img {
     width: 64px;
     height: 64px;
     margin: 0;
     filter: invert(1);
 }
 
+/* Эффект наведения на кнопку редактирования */
 #edit-btn:hover {
     background-color: #333435;
 }
 
+/* Изображения кнопок лайка и дизлайка */
 .like-btn img, .dislike-btn img {
     width: 60px;
     height: 60px;
@@ -459,35 +501,42 @@ nav {
     padding: 0;
 }
 
+/* Счетчики лайков и дизлайков */
 #like-count, #dislike-count {
     margin-right: 10px;
     font-size: 32px;
 }
 
+/* Стили для активной кнопки лайка */
 #like-btn.liked {
     background-color: #28a745 !important; 
     color: white;
 }
 
+/* Стили для активной кнопки дизлайка */
 #dislike-btn.disliked {
     background-color: #dc3545 !important; 
     color: white;
 }
 
+/* Плавное изменение цвета кнопок */
 #like-btn, #dislike-btn, #edit-btn {
     transition: background-color 0.3s;
 }
 
+/* Эффект наведения на кнопку лайка */
 #like-btn:hover:not(:disabled) {
     background-color: #28a745;
     color: white;
 }
 
+/* Эффект наведения на кнопку дизлайка */
 #dislike-btn:hover:not(:disabled) {
     background-color: #dc3545;
     color: white;
 }
 
+/* Пасхалка (элемент в правом нижнем углу) */
 .easter-egg {
     position: fixed;
     bottom: 20px;
@@ -497,11 +546,7 @@ nav {
     opacity: 0.3;
 }
 
-.easter-egg:hover {
-    opacity: 1;
-    animation: bounce 0.5s infinite;
-}
-
+/* Генератор мемов */
 .meme-generator {
     display: flex;
     flex-direction: column;
@@ -516,6 +561,7 @@ nav {
     max-height: 1300px;
 }
 
+/* Скрытие элементов в режиме редактирования */
 .meme-generator.edit-mode .image-upload,
 .meme-generator.edit-mode .text-inputs:nth-child(4),
 .meme-generator.edit-mode #generate-meme,
@@ -523,6 +569,7 @@ nav {
     display: none;
 }
 
+/* Стили для строки с элементами */
 .row {
     display: flex;
     flex-direction: row;
@@ -531,24 +578,28 @@ nav {
     gap: 20px;
 }
 
+/* Заголовок генератора мемов */
 .meme-generator h2 {
     font-size: 30px;
     margin-bottom: 20px;
 }
 
+/* Поля загрузки изображения и ввода текста */
 .image-upload, .text-inputs {
     width: 100%;
     margin-bottom: 20px;
 }
-.image-upload{
+.image-upload {
     margin-bottom: 0;
 }
 
+/* Метка для загрузки изображения */
 .image-upload label {
     font-size: 20px;
     margin-right: 10px;
 }
 
+/* Поле загрузки изображения */
 .image-upload input {
     padding: 10px;
     font-size: 16px;
@@ -557,6 +608,7 @@ nav {
     width: 100%;
 }
 
+/* Поля ввода текста */
 .text-inputs input {
     margin: 10px 0;
     padding: 10px;
@@ -566,6 +618,7 @@ nav {
     width: 100%;
 }
 
+/* Канвас для мема */
 #meme-canvas {
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -574,12 +627,14 @@ nav {
     height: 100%;
 }
 
+/* Контейнер кнопок генератора */
 .meme-btn {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
 
+/* Кнопки генерации и сохранения мема */
 #generate-meme, #save-meme {
     padding: 10px 20px;
     border: none;
@@ -590,10 +645,12 @@ nav {
     font-size: 16px;
 }
 
+/* Эффект наведения на кнопки генерации и сохранения */
 #generate-meme:hover, #save-meme:hover {
     background-color: #777;
 }
 
+/* Кнопка скачивания мема */
 #download-meme {
     padding: 10px 20px;
     background-color: #333;
@@ -602,11 +659,12 @@ nav {
     border-radius: 5px;
 }
 
+/* Эффект наведения на кнопку скачивания */
 #download-meme:hover {
     background-color: #555;
 }
 
-/* Адаптивность */
+/* Адаптивные стили для экранов до 1440px */
 @media (max-width: 1440px) {
     header h1 {
         margin-top: 20px;
@@ -632,7 +690,7 @@ nav {
     header {
         width: 220px;
     }
-    main {
+    main Spectral: {
         margin-left: 260px;
     }
     .search-bar {
@@ -644,6 +702,7 @@ nav {
     }
 }
 
+/* Адаптивные стили для экранов до 1024px */
 @media (max-width: 1024px) {
     .gallery {
         grid-template-columns: repeat(2, minmax(300px, 1fr));
@@ -670,6 +729,7 @@ nav {
     }
 }
 
+/* Адаптивные стили для экранов до 768px */
 @media (max-width: 768px) {
     header h1 {
         font-size: 27px;
@@ -712,17 +772,18 @@ nav {
     }
 }
 
+/* Адаптивные стили для экранов до 426px (мобильные устройства) */
 @media (max-width: 426px) {
     body {
         padding: 0;
-        flex-direction: column;
+        flex-direction: column; 
     }
     .heaven {
         padding: 20px;
     }
     header {
         width: 95%;
-        position: static;
+        position: static; 
         height: auto;
         margin: 9px;
         margin-bottom: 0;
@@ -737,7 +798,7 @@ nav {
         margin: 0;
     }
     .burger-menu {
-        display: block;
+        display: block; 
         font-size: 30px;
         cursor: pointer;
         color: white;
@@ -748,7 +809,7 @@ nav {
         margin-bottom: 0px;
     } 
     nav {
-        display: none;
+        display: none; 
         position: fixed;
         top: 0;
         left: 0;
@@ -766,7 +827,7 @@ nav {
     nav.active {
         margin: 0px;
         width: 100%;
-        display: flex;
+        display: flex; 
         opacity: 1;
     }
     header.active {
