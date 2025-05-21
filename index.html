@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
 </head>
 <body>
     <header>
-        <h1>ahaha.com</h1>
         <div class="burger-menu">☰</div>
+        <h1>ahaha.com</h1>
         <nav>
             <button class="nav-btn" data-category="all">Все мемы</button>
             <button class="nav-btn" data-category="itl">Итальянский braintrot</button>
@@ -20,28 +20,30 @@
             <button class="create-btn">Создать мем</button>
         </nav>
     </header>
+
     <main>
-        <!-- <div id="easter-egg" class="easter-egg">🥚</div> -->
         <div class="search-bar">
-            <img id="easter-egg" class="search-img" src="https://cdn-icons-png.flaticon.com/512/149/149852.png" alt="Search">
-            <input type="text" id="search" placeholder="Поиск...">
+            <img class="search-img" src="https://cdn-icons-png.flaticon.com/512/3917/3917132.png" alt="search" id="easter-egg">
+            <input type="text" id="search" placeholder="Поиск мемов...">
         </div>
-        <section id="meme-generator" class="meme-generator" style="display: none;">
-            <h2>Создай или добавь свой мем!</h2>
+
+        <section class="meme-generator" id="meme-generator" style="display: none;">
+            <h2>Добавь свой мем!</h2>
             <div class="image-upload">
                 <input type="file" id="image-upload" accept="image/*">
             </div>
             <div class="text-inputs">
-                <div class="row">
-                    <input type="text" id="top-text" placeholder="Верхний текст">
-                    <input type="text" id="bottom-text" placeholder="Нижний текст">
-                </div>
                 <input type="text" id="title" placeholder="Название мема">
-                <input type="text" id="description" placeholder="Описание мема">
+                <input type="text" id="description" placeholder="Описание">
                 <div class="row">
                     <input type="text" id="source" placeholder="Источник">
-                    <input type="number" id="year" placeholder="Год" min="1900" max="2025">  
+                    <input type="number" id="year" placeholder="Год">   
                 </div>
+            </div>
+            <div class="text-inputs">
+                <h2>Создай свой мем! (если хочешь)</h2>
+                <input type="text" id="top-text" placeholder="Верхний текст (по желанию)">
+                <input type="text" id="bottom-text" placeholder="Нижний текст (по желанию)">
             </div>
             <canvas id="meme-canvas"></canvas>
             <div class="meme-btn">
@@ -50,28 +52,32 @@
                 <button id="save-meme">Сохранить в галерею</button>
             </div>
         </section>
-        <section id="gallery" class="gallery"></section>
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <img id="modal-image" src="" alt="Meme">
-                <h2 id="modal-title"></h2>
-                <p id="modal-description"></p>
-                <p id="modal-year"></p>
-                <div class="like-dislike-container">
-                    <button id="like-btn" class="like-btn">
-                        <span id="like-count">0</span>
-                        <img src="img/like.svg" alt="Like">
-                    </button>
-                    <button id="dislike-btn" class="dislike-btn">
-                        <span id="dislike-count">0</span>
-                        <img src="img/dislike.svg" alt="Dislike">
-                    </button>
-                </div>
+
+        <section class="gallery" id="gallery"></section>
+    </main>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close"><img src="img/cross.png" alt="close"></span>
+            <button id="edit-btn" style="display: none;"><img src="img/settings.svg" alt="settings"></button>
+            <img id="modal-image" src="" alt="meme">
+            <div class="row">
+            <h2 id="modal-title"></h2>
+            </div>
+            <p id="modal-description"></p>
+            <p id="modal-year"></p>
+            <div class="like-dislike-container">
+                <button id="like-btn" class="like-btn">
+                    <span id="like-count">0</span>
+                    <img src="img/like.svg" alt="like">
+                </button>
+                <button id="dislike-btn" class="dislike-btn">
+                    <span id="dislike-count">0</span>
+                    <img src="img/dislike.svg" alt="dislike">
+                </button>
             </div>
         </div>
-        
-    </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

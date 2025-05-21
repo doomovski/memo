@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 8, title: "Четыре (шесть)", category: "anything", description: "Кот, который выглядит умнее всех.", year: 2022, source: "VK", image: "https://steamuserimages-a.akamaihd.net/ugc/1699531085984116757/AE595C7552B603CFEBA3C054FB8348ABFDDC64B7/?imw=512&imh=288&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true", likes: 0, dislikes: 0 },
         { id: 9, title: "Райан Гослинг", category: "rg", description: "Малыш танцует под музыку.", year: 2020, source: "YouTube", image: "https://i.pinimg.com/736x/b9/67/3e/b9673e65c1b857e6fea24ef082cf6563.jpg", likes: 0, dislikes: 0 },
         { id: 10, title: "Ты щаслив?", category: "rg", description: "Лягушка Пепе грустит.", year: 2020, source: "VK", image: "https://i.pinimg.com/736x/25/58/35/255835e397a1a4de4e280ddb185abebb.jpg", likes: 0, dislikes: 0 },
-        { id: 11, title: "кис-кис-кис", category: "animal", description: "Лягушка Пепе грустит.", year: 2016, source: "VK", image: "https://i.pinimg.com/736x/56/d9/66/56d9668626d91a87cd992dc66dc239a8.jpg", likes: 0, dislikes: 0 },
-        { id: 12, title: "Двойственность", category: "rg", description: "Лягушка Пепе грустит.", year: 2020, source: "4chan", image: "https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66c875c128e3ed73e0c27142_66c875f1da212c5c4d32d1e7/scale_1200", likes: 0, dislikes: 0 }
+        { id: 11, title: "кис-кис-кис", category: "animal", description: "Мемы с котиками самые актуальные", year: 2016, source: "VK", image: "https://i.pinimg.com/736x/56/d9/66/56d9668626d91a87cd992dc66dc239a8.jpg", likes: 0, dislikes: 0 },
+        { id: 12, title: "Двойственность", category: "rg", description: "Лягушка Пепе грустит.", year: 2020, source: "4chan", image: "https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66c875c128e3ed73e0c27142_66c875f1da212c5c4d32d1e7/scale_1200", likes: 0, dislikes: 0 },
+        // { id: 13, title: "Двойственность", category: "my", description: "Лягушка Пепе грустит.", year: 2020, source: "4chan", image: "https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66c875c128e3ed73e0c27142_66c875f1da212c5c4d32d1e7/scale_1200", likes: 0, dislikes: 0 }
     ];
 
     // Элементы DOM
@@ -28,9 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModal = document.querySelector('.close');
     const easterEgg = document.getElementById('easter-egg');
     const memeGeneratorSection = document.getElementById('meme-generator');
+    const memeGeneratorTitle = memeGeneratorSection.querySelector('h2');
     const imageUploadInput = document.getElementById('image-upload');
+    const imageUploadContainer = document.querySelector('.image-upload');
     const topTextInput = document.getElementById('top-text');
     const bottomTextInput = document.getElementById('bottom-text');
+    const textInputsContainer = document.querySelector('.text-inputs');
     const titleInput = document.getElementById('title');
     const descriptionInput = document.getElementById('description');
     const sourceInput = document.getElementById('source');
@@ -42,10 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvasContext = memeCanvas.getContext('2d');
     const burgerMenu = document.querySelector('.burger-menu');
     const nav = document.querySelector('nav');
-    const header = document.querySelector('header')
+    const header = document.querySelector('header');
     const userInteractions = {};
 
     let uploadedImageSrc = null;
+    let editingMemeId = null;
+    const originalGeneratorTitle = memeGeneratorTitle.textContent;
 
     // Обработчик бургер-меню
     burgerMenu.addEventListener('click', (e) => {
@@ -56,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             header.classList.remove('active');
             nav.classList.remove('active');
             burgerMenu.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Возвращаем возможность скролла
+            document.body.style.overflow = 'auto';
         } else {
             // Открываем меню
             nav.style.display = 'flex';
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 header.classList.add('active');
                 nav.classList.add('active');
                 burgerMenu.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Блокируем скролл при открытом меню
+                document.body.style.overflow = 'hidden';
             }, 10);
         }
     });
@@ -72,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Закрытие меню при клике на ссылку
     document.querySelectorAll('nav .nav-btn, nav .create-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            // Проверяем, активно ли бургер-меню (т.е. мобильная версия)
             if (burgerMenu.classList.contains('active')) {
                 header.classList.remove('active');
                 nav.classList.remove('active');
@@ -85,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Переключение режима редактирования
+    function toggleEditMode(isEditing) {
+        memeGeneratorSection.classList.toggle('edit-mode', isEditing);
+        memeGeneratorTitle.textContent = isEditing ? 'Редактируй свой мем' : originalGeneratorTitle;
+    }
 
     // Обработчик кнопки "Создать мем"
     createBtn.addEventListener('click', () => {
@@ -92,11 +102,30 @@ document.addEventListener('DOMContentLoaded', () => {
         createBtn.classList.add('active');
         displayMemes('generator');
         searchInput.value = '';
+        editingMemeId = null;
+        resetMemeGenerator();
+        toggleEditMode(false);
         if (burgerMenu.classList.contains('active')) {
             burgerMenu.classList.remove('active');
             nav.classList.remove('active');
         }
     });
+
+    // Сброс формы генератора мемов
+    function resetMemeGenerator() {
+        titleInput.value = '';
+        descriptionInput.value = '';
+        sourceInput.value = '';
+        yearInput.value = '';
+        topTextInput.value = '';
+        bottomTextInput.value = '';
+        imageUploadInput.value = '';
+        memeCanvas.width = 0;
+        downloadMemeBtn.style.display = 'none';
+        uploadedImageSrc = null;
+        saveMemeBtn.textContent = 'Сохранить в галерею';
+        toggleEditMode(false);
+    }
 
     // Загрузка изображения
     imageUploadInput.addEventListener('change', (event) => {
@@ -151,21 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = imageSrc;
     }
 
-    // // Предотвращение навигации по data URL
-    // downloadMemeBtn.addEventListener('click', (e) => {
-    //     if (!downloadMemeBtn.href || downloadMemeBtn.href === '#') {
-    //         e.preventDefault();
-    //         alert('Сначала сгенерируйте мем!');
-    //     }
-    // });
-
     // Отображение мемов
     function displayMemes(filter = 'all') {
         gallery.innerHTML = '';
         memeGeneratorSection.style.display = filter === 'generator' ? 'block' : 'none';
         searchBar.style.display = filter === 'generator' ? 'none' : 'flex';
         gallery.style.display = filter === 'generator' ? 'none' : 'grid';
-        if (filter !== 'generator ADB') {
+        if (filter !== 'generator') {
             memes.filter(m => filter === 'all' || m.category === filter)
                 .forEach(meme => {
                     const div = document.createElement('div');
@@ -215,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchBar.style.display = 'none';
     });
 
-    // Сохранение мема
+    // Сохранение или обновление мема
     saveMemeBtn.addEventListener('click', () => {
         if (!uploadedImageSrc) {
             alert('Пожалуйста, загрузите изображение!');
@@ -225,30 +246,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const description = descriptionInput.value.trim() || 'Сгенерировано';
         const source = sourceInput.value.trim() || 'Генератор';
         const year = parseInt(yearInput.value) || new Date().getFullYear();
-        memes.push({
-            id: memes.length + 1,
-            title: title,
-            category: 'my',
-            description: description,
-            year: year,
-            source: source,
-            image: memeCanvas.toDataURL(),
-            likes: 0,
-            dislikes: 0
-        });
+        
+        if (editingMemeId) {
+            // Обновление существующего мема
+            const memeIndex = memes.findIndex(m => m.id === editingMemeId);
+            if (memeIndex !== -1) {
+                memes[memeIndex] = {
+                    ...memes[memeIndex],
+                    title: title,
+                    description: description,
+                    source: source,
+                    year: year,
+                    image: memeCanvas.toDataURL(),
+                };
+                alert('Мем обновлён!');
+            }
+        } else {
+            // Создание нового мема
+            memes.push({
+                id: memes.length + 1,
+                title: title,
+                category: 'my',
+                description: description,
+                year: year,
+                source: source,
+                image: memeCanvas.toDataURL(),
+                likes: 0,
+                dislikes: 0
+            });
+            alert('Мем сохранён!');
+        }
+
         const activeCategory = document.querySelector('.nav-btn.active')?.dataset.category || 'all';
         displayMemes(activeCategory);
-        alert('Мем сохранён!');
-        // Очистка полей после сохранения
-        titleInput.value = '';
-        descriptionInput.value = '';
-        sourceInput.value = '';
-        yearInput.value = '';
-        topTextInput.value = '';
-        bottomTextInput.value = '';
-        imageUploadInput.value = '';
-        memeCanvas.width = 0; // Очистка канваса
-        downloadMemeBtn.style.display = 'none';
+        resetMemeGenerator();
+        editingMemeId = null;
     });
 
     // Закрытие модального окна
@@ -268,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const likeBtn = document.getElementById('like-btn');
         const dislikeBtn = document.getElementById('dislike-btn');
+        const editBtn = document.getElementById('edit-btn');
 
         // Сбрасываем стили и состояние кнопок
         likeBtn.classList.remove('liked');
@@ -275,26 +308,38 @@ document.addEventListener('DOMContentLoaded', () => {
         likeBtn.disabled = false;
         dislikeBtn.disabled = false;
 
-        // Проверяем текущее состояние взаимодействия
-        if (userInteractions[meme.id] === 'like') {
-            likeBtn.classList.add('liked');
-            dislikeBtn.disabled = true;
-        } else if (userInteractions[meme.id] === 'dislike') {
-            dislikeBtn.classList.add('disliked');
-            likeBtn.disabled = true;
+        // Показываем кнопку редактирования только для мемов категории "my"
+        if (meme.category === 'my') {
+            editBtn.style.display = 'inline-block';
+            editBtn.onclick = () => {
+                editingMemeId = meme.id;
+                titleInput.value = meme.title;
+                descriptionInput.value = meme.description;
+                sourceInput.value = meme.source;
+                yearInput.value = meme.year;
+                uploadedImageSrc = meme.image;
+                topTextInput.value = '';
+                bottomTextInput.value = '';
+                drawMeme(uploadedImageSrc, topTextInput.value.toUpperCase(), bottomTextInput.value.toUpperCase());
+                displayMemes('generator');
+                saveMemeBtn.textContent = 'Сохранить изменения';
+                toggleEditMode(true);
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
+            };
+        } else {
+            editBtn.style.display = 'none';
         }
 
         // Обработчик для лайка
         likeBtn.onclick = () => {
             if (userInteractions[meme.id] === 'like') {
-                // Отмена лайка
                 meme.likes--;
                 document.getElementById('like-count').textContent = meme.likes;
                 likeBtn.classList.remove('liked');
                 dislikeBtn.disabled = false;
                 delete userInteractions[meme.id];
             } else if (!userInteractions[meme.id]) {
-                // Установка лайка
                 meme.likes++;
                 document.getElementById('like-count').textContent = meme.likes;
                 likeBtn.classList.add('liked');
@@ -306,14 +351,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Обработчик для дизлайка
         dislikeBtn.onclick = () => {
             if (userInteractions[meme.id] === 'dislike') {
-                // Отмена дизлайка
                 meme.dislikes--;
                 document.getElementById('dislike-count').textContent = meme.dislikes;
                 dislikeBtn.classList.remove('disliked');
                 likeBtn.disabled = false;
                 delete userInteractions[meme.id];
             } else if (!userInteractions[meme.id]) {
-                // Установка дизлайка
                 meme.dislikes++;
                 document.getElementById('dislike-count').textContent = meme.dislikes;
                 dislikeBtn.classList.add('disliked');
